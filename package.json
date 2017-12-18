@@ -11,7 +11,7 @@
     "clean": "rimraf ./dist && mkdir dist",
     "prebuild": "yarn run clean",
     "build": "NODE_ENV='production' webpack --progress --display-error-details",
-    "postbuild": "copyfiles -u 1 public/**/*.* dist && yarn pack dist && copyfiles *.tgz dist && rimraf *.tgz",
+    "postbuild": "copyfiles -u 1 public/**/*.* dist",
     "test": "jest"
   },
   "dependencies": {
