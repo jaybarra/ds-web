@@ -41,5 +41,6 @@ module.exports = {
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
         "jest/valid-expect": "error",
+        "react/prop-types": "off" // TODO React 16 uses prop-types lib instead of built-in, verify correct usage
     }
 };

@@ -14,43 +14,19 @@ import {
     Visibility,
 } from "semantic-ui-react";
 
-const FixedMenu = () => (
-    <Menu fixed="top" size="large">
-        <Container>
-            <Menu.Item as={Link} to="/" active>Home</Menu.Item>
-            <Menu.Item as={Link} to="/">Campaigns</Menu.Item>
-            <Menu.Item as={Link} to="/">Characters</Menu.Item>
-
-            <Menu.Menu position="right">
-                <Menu.Item className="item">
-                    <Button as={Link} to="/login">Log in</Button>
-                </Menu.Item>
-                <Menu.Item>
-                    <Button as={Link} to="/signup" primary>Sign Up</Button>
-                </Menu.Item>
-            </Menu.Menu>
-        </Container>
-    </Menu>
-);
-
-export class Layout extends Component {
+export class Home extends Component {
     state = {};
 
-    hideFixedMenu = () => this.setState({visible: false});
-    showFixedMenu = () => this.setState({visible: true});
-
     render() {
-        const {visible} = this.state;
-
+        const {hideMenu, showMenu} = this.props;
         let background = "assets/images/smoke_background.jpg";
 
         return (
             <div>
-                {visible ? <FixedMenu/> : null}
 
                 <Visibility
-                    onBottomPassed={this.showFixedMenu}
-                    onBottomVisible={this.hideFixedMenu}
+                    onBottomPassed={showMenu}
+                    onBottomVisible={hideMenu}
                     once={false}
                 >
 
@@ -69,8 +45,8 @@ export class Layout extends Component {
                         <Container>
                             <Menu inverted pointing secondary size="large">
                                 <Menu.Item as={Link} to="/" active>Home</Menu.Item>
-                                <Menu.Item as={Link} to="/">Campaigns</Menu.Item>
-                                <Menu.Item as={Link} to="/">Characters</Menu.Item>
+                                <Menu.Item as={Link} to="/campaigns">Campaigns</Menu.Item>
+                                <Menu.Item as={Link} to="/characters">Characters</Menu.Item>
                                 <Menu.Item position="right">
                                     <Button as={Link} to="/" inverted>Log in</Button>
                                     <Button as={Link} to="/" inverted style={{marginLeft: "0.5em"}}>Sign Up</Button>
@@ -97,7 +73,7 @@ export class Layout extends Component {
                                 inverted
                                 style={{fontSize: "1.2em", fontWeight: "normal"}}
                             />
-                            <Button basic color="white" size="huge">
+                            <Button primary size="huge">
                                 Get Started
                                 <Icon name="right arrow"/>
                             </Button>
