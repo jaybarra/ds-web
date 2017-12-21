@@ -26,10 +26,6 @@ const FixedMenu = ({hideLogin}) => (
     </Menu>
 );
 
-FixedMenu.PropTypes = {
-    hideLogin: PropTypes.boolean
-};
-
 export class App extends Component {
     state = {};
 

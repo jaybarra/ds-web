@@ -1,4 +1,5 @@
-import React, {Component} from "react";
+import React from "react";
+import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import Lightbox from "react-image-lightbox";
 import {
@@ -14,11 +15,16 @@ import {
     Visibility,
 } from "semantic-ui-react";
 
-export class Home extends Component {
+@connect((store) => {
+    return {
+        auth: store.auth
+    };
+})
+export class Home extends React.Component {
     state = {};
 
     render() {
-        const {hideMenu, showMenu} = this.props;
+        const {hideMenu, showMenu, auth} = this.props;
         let background = "assets/images/smoke_background.jpg";
 
         return (
@@ -48,8 +54,13 @@ export class Home extends Component {
                                 <Menu.Item as={Link} to="/campaigns">Campaigns</Menu.Item>
                                 <Menu.Item as={Link} to="/characters">Characters</Menu.Item>
                                 <Menu.Item position="right">
-                                    <Button as={Link} to="/" inverted>Log in</Button>
-                                    <Button as={Link} to="/" inverted style={{marginLeft: "0.5em"}}>Sign Up</Button>
+                                    {!auth.isAuthenticated ? <div>
+                                            <Button as={Link} to="/login" inverted>Log in</Button>
+                                            <Button as={Link}
+                                                    to="/signup"
+                                                    inverted
+                                                    style={{marginLeft: "0.5em"}}>Sign Up</Button></div> :
+                                        <Button as={Link} to={"/logout"}>Logout</Button>}
                                 </Menu.Item>
                             </Menu>
                         </Container>

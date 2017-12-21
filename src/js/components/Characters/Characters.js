@@ -1,8 +1,43 @@
 import React from "react";
+import {connect} from "react-redux";
 import {Segment, Header, Grid, List} from "semantic-ui-react";
 
+import axios from "axios";
+
+@connect((store) => {
+    return {
+        auth: store.auth
+    };
+})
 export class Characters extends React.Component {
+    state = {
+        users: []
+    };
+
+    componentDidMount() {
+        const {auth} = this.props;
+
+
+        if (auth.jwt) {
+            axios
+                .get("/api/users", {
+                    headers: {
+                        "jwt": auth.jwt
+                    }
+                })
+                .then(response => {
+                    this.setState({users: response.data});
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
+
+    }
+
     render() {
+        const {users} = this.state;
+
         return (
             <Segment vertical>
                 <Header
@@ -21,6 +56,9 @@ export class Characters extends React.Component {
                             </List>
                         </Grid.Column>
                         <Grid.Column floated="right" width={6}>
+                            <List>
+                                {users.map(user => <List.Item key={user.username}>{user.username}</List.Item>)}
+                            </List>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>

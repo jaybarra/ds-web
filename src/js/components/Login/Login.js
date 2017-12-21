@@ -1,19 +1,36 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {Link, Redirect} from "react-router-dom";
 import {Grid, Header, Button, Form} from "semantic-ui-react";
 
+import {sendLogin} from "../../actions/AuthenticationActions";
+
+@connect((store) => {
+    return {
+        auth: store.auth
+    };
+})
 export class Login extends React.Component {
+    state = {
+        username: null,
+        password: null
+    };
 
     handleLogin = () => {
-        //const {dispatch} = this.props;
-        //const {credentials} = this.state;
+        const {dispatch} = this.props;
+        const {username, password} = this.state;
 
-        //console.log("Logging in ");
-
-        // dispatch(login(credentials));
+        dispatch(sendLogin({username: username, password: password}));
     };
 
     render() {
+        const {auth} = this.props;
+
+        if (auth.isAuthenticated) {
+            // return <Redirect to="/welcome"/>
+            return <Redirect to="/"/>;
+        }
+
         return (
             <Grid centered>
                 <Grid.Column width={4}>
@@ -21,8 +38,15 @@ export class Login extends React.Component {
                             content={"Login"}
                     />
                     <Form>
-                        <Form.Input name="username" placeholder="Username"/>
-                        <Form.Input name="password" type="password" placeholder="Password"/>
+                        <Form.Input name="username"
+                                    placeholder="Username"
+                                    onChange={(e, {value}) => this.setState({username: value})}/>
+
+                        <Form.Input name="Password"
+                                    type="password"
+                                    placeholder="Password"
+                                    onChange={(e, {value}) => this.setState({password: value})}/>
+
                         <Button.Group fluid>
                             <Button as={Link} to="/signup" secondary type="button">Sign Up</Button>
                             <Button primary
