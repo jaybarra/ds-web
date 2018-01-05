@@ -21,7 +21,7 @@ const history = createHistory();
 const routerMiddle = routerMiddleware(history);
 
 const middleware = applyMiddleware(promise(), thunk, createLogger(), routerMiddle);
-const store = createStore(masterReducer, middleware);
+export const store = createStore(masterReducer, middleware);
 
 // ============================================================================
 
