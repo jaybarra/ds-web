@@ -17,7 +17,6 @@ export class Characters extends React.Component {
     componentDidMount() {
         const {auth} = this.props;
 
-
         if (auth.jwt) {
             axios
                 .get("/api/users", {

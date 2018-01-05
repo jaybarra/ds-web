@@ -8,7 +8,10 @@ const outputDir = debug ? "public" : "dist";
 module.exports = {
     devtool: debug ? "inline-source-map" : false,
     devServer: {
-        historyApiFallback: true
+        historyApiFallback: true,
+        proxy: {
+            "/api": "http://localhost:3000"
+        }
     },
     entry: {
         ds: "./src/js/index.js"

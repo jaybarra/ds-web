@@ -1,9 +1,9 @@
 import React, {Component} from "react";
-import PropTypes from "prop-types";
 import {Link, Route, Switch, Redirect} from "react-router-dom";
 import {Container, Menu, Button} from "semantic-ui-react";
+import {ToastContainer} from "react-toastify";
 
-import {Home, Characters, Campaigns, Login} from "./components";
+import {Home, Characters, Campaigns, Login, Logout, Signup} from "./components";
 
 const FixedMenu = ({hideLogin}) => (
     <Menu fixed="top" size="large">
@@ -22,6 +22,10 @@ const FixedMenu = ({hideLogin}) => (
                     </Menu.Item>
                 </Menu.Menu>
             }
+            <Menu.Menu position="right">
+                <Menu.Item as={Link} to="/logout">Log out</Menu.Item>
+            </Menu.Menu>
+
         </Container>
     </Menu>
 );
@@ -36,7 +40,7 @@ export class App extends Component {
         const {location} = this.props;
         const {visible} = this.state;
 
-        let hideMenuStates = ["/", "/login"];
+        let hideMenuStates = ["/", "/login", "/signup"];
 
         const topMenuBar = ((visible && location.pathname === "/") || !hideMenuStates.includes(location.pathname)) ?
             <FixedMenu hideLogin={location.pathname !== "/"}/> : null;
@@ -45,6 +49,8 @@ export class App extends Component {
             <div className="app-wrapper">
                 {topMenuBar}
 
+                <ToastContainer/>
+
                 <Switch>
                     <Route exact
                            path="/"
@@ -52,7 +58,10 @@ export class App extends Component {
 
                     <Route path="/campaigns" component={Campaigns}/>
                     <Route path="/characters" component={Characters}/>
+
                     <Route path="/login" component={Login}/>
+                    <Route path="/signup" component={Signup}/>
+                    <Route path="/logout" component={Logout}/>
 
                     {/** Catch 404s and redirect to home for now */}
                     <Redirect to="/"/>

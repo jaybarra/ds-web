@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
-import {Grid, Header, Button, Form} from "semantic-ui-react";
+import {Grid, Header, Button, Form, Segment} from "semantic-ui-react";
 
 import {sendLogin} from "../../actions/AuthenticationActions";
 
@@ -33,11 +33,11 @@ export class Login extends React.Component {
 
         return (
             <Grid centered>
-                <Grid.Column width={4}>
+                <Grid.Column width={6}>
                     <Header as="h1"
                             content={"Login"}
                     />
-                    <Form>
+                    <Form as={Segment}>
                         <Form.Input name="username"
                                     placeholder="Username"
                                     onChange={(e, {value}) => this.setState({username: value})}/>
