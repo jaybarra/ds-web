@@ -27,8 +27,7 @@ export class Login extends React.Component {
         const {auth} = this.props;
 
         if (auth.isAuthenticated) {
-            // return <Redirect to="/welcome"/>
-            return <Redirect to="/"/>;
+            return (<Redirect to={"/user/" + this.state.username}/>);
         }
 
         return (
@@ -40,6 +39,7 @@ export class Login extends React.Component {
                     <Form as={Segment}>
                         <Form.Input name="username"
                                     placeholder="Username"
+                                    pattern={/\W+/}
                                     onChange={(e, {value}) => this.setState({username: value})}/>
 
                         <Form.Input name="Password"

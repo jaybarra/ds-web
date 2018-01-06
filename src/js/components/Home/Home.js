@@ -5,6 +5,7 @@ import Lightbox from "react-image-lightbox";
 import {
     Button,
     Container,
+    Dropdown,
     Grid,
     Header,
     Icon,
@@ -60,7 +61,14 @@ export class Home extends React.Component {
                                                     to="/signup"
                                                     inverted
                                                     style={{marginLeft: "0.5em"}}>Sign Up</Button></div> :
-                                        <Button as={Link} to={"/logout"}>Logout</Button>}
+                                        <Dropdown item text={auth.user ? auth.user.username : "Not Logged In"}>
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item as={Link}
+                                                               to={"/user/" + auth.user.username}>My Profile</Dropdown.Item>
+                                                <Dropdown.Divider/>
+                                                <Dropdown.Item as={Link} to={"/logout"}>Logout</Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>}
                                 </Menu.Item>
                             </Menu>
                         </Container>
@@ -84,7 +92,10 @@ export class Home extends React.Component {
                                 inverted
                                 style={{fontSize: "1.2em", fontWeight: "normal"}}
                             />
-                            <Button primary size="huge">
+                            <Button primary
+                                    size="huge"
+                                    as={Link}
+                                    to={auth.user ? ("/user/" + auth.user.username) : "/login"}>
                                 Get Started
                                 <Icon name="right arrow"/>
                             </Button>
@@ -92,93 +103,6 @@ export class Home extends React.Component {
                     </Segment>
                 </Visibility>
 
-                <Segment style={{padding: "8em 0em"}} vertical>
-                    <Grid container stackable verticalAlign="middle">
-                        <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Header as="h3" style={{fontSize: "2em"}}>We Help Adventurers and Companions</Header>
-                                <p style={{fontSize: "1.33em"}}>
-                                    We can give your party superpowers to do things that they never thought possible. Let us delight
-                                    your patrons and empower your needs... through pure chicanery and bluster.
-                                </p>
-                                <Header as="h3" style={{fontSize: "2em"}}>We Make Bananas That Can Dance</Header>
-                                <p style={{fontSize: "1.33em"}}>
-                                    Yes that{"'"}s right, you thought it was the stuff of dreams, but even bananas can be bioengineered.
-                                </p>
-                                <p style={{fontSize: "0.9em"}}>Our wizards are very good with fruit magic</p>
-                            </Grid.Column>
-                            <Grid.Column floated="right" width={6}>
-                                {this.state.noWizard ?
-                                    <Lightbox mainSrc="/assets/images/WeAreNotTakingTheWizard.jpg"
-                                              imageTitle={"We are NOT taking the wizard"}
-                                              imageCaption={<a target="_blank"
-                                                               rel="noopener noreferrer"
-                                                               href="https://www.artstation.com/mattrhodes">by Matt Rhodes</a>}
-                                              onCloseRequest={() => this.setState({noWizard: false})}/>
-                                    :
-                                    <Image
-                                        onClick={() => this.setState({noWizard: true})}
-                                        bordered
-                                        rounded
-                                        size="large"
-                                        src="/assets/images/WeAreNotTakingTheWizard.jpg"
-                                    />}
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column textAlign="center">
-                                <Button size="huge">Check Them Out</Button>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Segment>
-
-                <Segment style={{padding: "0em"}} vertical>
-                    <Grid celled="internally" columns="equal" stackable>
-                        <Grid.Row textAlign="center">
-                            <Grid.Column style={{paddingBottom: "5em", paddingTop: "5em"}}>
-                                <Header as="h3" style={{fontSize: "2em"}}>{"What a Company"}</Header>
-                                <p style={{fontSize: "1.33em"}}>That is what they all say about us</p>
-                            </Grid.Column>
-                            <Grid.Column style={{paddingBottom: "5em", paddingTop: "5em"}}>
-                                <Header as="h3"
-                                        style={{fontSize: "2em"}}>{"I shouldn't have gone with their competitor."}</Header>
-                                <p style={{fontSize: "1.33em"}}>
-                                    {this.state.yingletFight ?
-                                        <Lightbox mainSrc="/assets/images/yinglet_fight.jpg"
-                                                  imageTitle={"Traditional Yinglet dispute settling"}
-                                                  imageCaption={<a target="_blank"
-                                                                   rel="noopener noreferrer"
-                                                                   href="http://www.valsalia.com/comic/out-of-placers/oops-24/">by Out-of-Placers</a>}
-                                                  onCloseRequest={() => this.setState({yingletFight: false})}/>
-                                        :
-                                        <Image
-                                            centered
-                                            onClick={() => this.setState({yingletFight: true})}
-                                            bordered
-                                            rounded
-                                            size="medium"
-                                            src="/assets/images/yinglet_fight.jpg"
-                                        />}
-
-                                    <b>Vizlet</b> Yinglet Matron
-                                </p>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Segment>
-
-                <Segment style={{padding: "8em 0em"}} vertical>
-                    <Container text>
-                        <Header as="h3" style={{fontSize: "2em"}}>Breaking The Grid, Grabs Your Attention</Header>
-                        <p style={{fontSize: "1.33em"}}>
-                            Instead of focusing on content creation and hard work, we have learned how to master the art of doing
-                            nothing by providing massive amounts of whitespace and generic content that can seem massive, monolithic
-                            and worth your attention.
-                        </p>
-                        <Button as={Link} to="/" size="large">Read More</Button>
-                    </Container>
-                </Segment>
 
                 <Segment inverted vertical style={{padding: "5em 0em"}}>
                     <Container>

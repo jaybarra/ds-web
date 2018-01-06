@@ -23,7 +23,7 @@ export const sendLogin = (creds) => {
         payload: axios
             .post("/api/auth", creds)
             .then(response => {
-                return response.data.token;
+                return response.data;
             })
     };
 };
