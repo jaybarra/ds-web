@@ -27,7 +27,7 @@ export class Login extends React.Component {
         const {auth} = this.props;
 
         if (auth.isAuthenticated) {
-            return (<Redirect to={"/user/" + this.state.username}/>);
+            return (<Redirect to={"/user/" + auth.user.username}/>);
         }
 
         return (

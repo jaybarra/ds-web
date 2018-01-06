@@ -3,9 +3,12 @@ import {register} from "../../actions/AuthenticationActions";
 import {connect} from "react-redux";
 import {Grid, Form, Button, Header, Icon, Divider, Segment, Message} from "semantic-ui-react";
 import {toast} from "react-toastify";
+import {Redirect} from "react-router-dom";
 
 @connect((store) => {
-    return {};
+    return {
+        auth: store.auth
+    };
 })
 export class Signup extends React.Component {
     state = {};
@@ -32,39 +35,47 @@ export class Signup extends React.Component {
     };
 
     render() {
+
+        const {auth} = this.props;
+
+        if (auth.isAuthenticated) {
+            return (<Redirect to={"/user/" + auth.user.username}/>);
+        }
+
         return (
             <Grid centered>
                 <Grid.Column width={6}>
                     <Header as="h1"
                             content={"Register"}
                     />
-                    <Form onSubmit={this.handleSubmitRegister}>
-                        <Form.Input required
-                                    pattern={"^\\S]+"}
-                                    label="Username"
-                                    onChange={(e, {value}) => this.setState({username: value})}/>
+                    <Segment>
+                        <Form onSubmit={this.handleSubmitRegister}>
+                            <Form.Input required
+                                        label="Username"
+                                        onChange={(e, {value}) => this.setState({username: value})}/>
 
-                        <Form.Input required
-                                    label="Email"
-                                    type="email"
-                                    onChange={(e, {value}) => this.setState({email: value})}/>
+                            <Form.Input required
+                                        label="Email"
+                                        type="email"
+                                        onChange={(e, {value}) => this.setState({email: value})}/>
 
-                        <Form.Input required
-                                    min={6}
-                                    error={this.state.password1 !== this.state.password2 && !!this.state.password2}
-                                    label="Password"
-                                    type="password"
-                                    onChange={(e, {value}) => this.setState({password1: value})}/>
+                            <Form.Input required
+                                        min={6}
+                                        error={this.state.password1 !== this.state.password2 && !!this.state.password2}
+                                        label="Password"
+                                        type="password"
+                                        onChange={(e, {value}) => this.setState({password1: value})}/>
 
-                        <Form.Input required
-                                    min={6}
-                                    error={this.state.password1 !== this.state.password2 && !!this.state.password2}
-                                    label="Verify Password"
-                                    type="password"
-                                    onChange={(e, {value}) => this.setState({password2: value})}/>
+                            <Form.Input required
+                                        min={6}
+                                        error={this.state.password1 !== this.state.password2 && !!this.state.password2}
+                                        label="Verify Password"
+                                        type="password"
+                                        onChange={(e, {value}) => this.setState({password2: value})}/>
 
-                        <Form.Button primary type='submit' content="Register"/>
-                    </Form>
+                            <Form.Button primary type='submit' content="Register"/>
+                        </Form>
+                    </Segment>
                 </Grid.Column>
             </Grid>
         );

@@ -21,6 +21,7 @@ export const AuthenticationReducer = (state = initial, action) => {
                 fetching: false,
                 isAuthenticated: false
             };
+        case `${AuthenticationActions.AUTH_REGISTER}_FULFILLED`:
         case `${AuthenticationActions.AUTH_LOGIN}_FULFILLED`:
             sessionStorage.setItem("jwt", action.payload.token);
             localStorage.setItem("user", JSON.stringify(action.payload.user));
@@ -31,6 +32,19 @@ export const AuthenticationReducer = (state = initial, action) => {
                 jwt: action.payload.token,
                 user: action.payload.user
             };
+        case `${AuthenticationActions.AUTH_REGISTER}_PENDING`:
+            return {
+                ...state,
+                fetching: true,
+                isAuthenticated: false
+            };
+        case `${AuthenticationActions.AUTH_REGISTER}_REJECTED`:
+            return {
+                ...state,
+                fetching: false,
+                isAuthenticated: false
+            };
+
         case AuthenticationActions.AUTH_LOGOUT:
             sessionStorage.removeItem("jwt");
             localStorage.removeItem("user");

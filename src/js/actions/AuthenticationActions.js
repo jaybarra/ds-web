@@ -1,4 +1,5 @@
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export const AuthenticationActions = {
     "AUTH_LOGIN": "AUTH_LOGIN",
@@ -12,7 +13,10 @@ export const register = (creds) => {
         payload: axios
             .post("/api/signup", creds)
             .then(response => {
-                return response.data.token;
+                return response.data;
+            })
+            .catch(err => {
+                toast.error(err.response.data.message);
             })
     };
 };
@@ -24,6 +28,9 @@ export const sendLogin = (creds) => {
             .post("/api/auth", creds)
             .then(response => {
                 return response.data;
+            })
+            .catch(err => {
+                toast.error(err.response.data.message);
             })
     };
 };
