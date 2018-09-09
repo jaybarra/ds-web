@@ -31,30 +31,34 @@ export class Login extends React.Component {
         }
 
         return (
-            <Grid centered>
+            <Grid centered stackable>
                 <Grid.Column width={6}>
                     <Header as="h1"
                             content={"Login"}
                     />
-                    <Form as={Segment}>
-                        <Form.Input name="username"
-                                    placeholder="Username"
-                                    pattern={/\W+/}
-                                    onChange={(e, {value}) => this.setState({username: value})}/>
+                    <Segment>
+                        <Form>
+                            <Form.Input name="username"
+                                        placeholder="Username"
+                                        autoComplete="username"
+                                        pattern={/\W+/}
+                                        onChange={(e, {value}) => this.setState({username: value})}/>
 
-                        <Form.Input name="Password"
-                                    type="password"
-                                    placeholder="Password"
-                                    onChange={(e, {value}) => this.setState({password: value})}/>
+                            <Form.Input name="current-password"
+                                        type="password"
+                                        autoComplete="password"
+                                        placeholder="Password"
+                                        onChange={(e, {value}) => this.setState({password: value})}/>
 
-                        <Button.Group fluid>
-                            <Button as={Link} to="/signup" secondary type="button">Sign Up</Button>
-                            <Button primary
-                                    type="button"
-                                    floated="right"
-                                    onClick={() => this.handleLogin()}>Login</Button>
-                        </Button.Group>
-                    </Form>
+                            <Button.Group fluid>
+                                <Button as={Link} to="/signup" secondary type="button">Sign Up</Button>
+                                <Button primary
+                                        type="button"
+                                        floated="right"
+                                        onClick={() => this.handleLogin()}>Login</Button>
+                            </Button.Group>
+                        </Form>
+                    </Segment>
                 </Grid.Column>
             </Grid>
         );

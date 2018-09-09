@@ -3,7 +3,10 @@ import {Grid, Icon, Segment, Image, Button, Header, List, Table} from "semantic-
 
 export class Character extends React.Component {
     render() {
-        const {character} = this.props;
+        const {character, match} = this.props;
+        if (!match.params.user) {
+            return null;
+        }
         return (
             <Grid centered celled widths="equal">
                 <Grid.Column>
@@ -13,8 +16,6 @@ export class Character extends React.Component {
                         <List.Item>Strength: {character.stats.strength.value}</List.Item>
                     </List>
                 </Grid.Column>
-
-
             </Grid>
         )
     }

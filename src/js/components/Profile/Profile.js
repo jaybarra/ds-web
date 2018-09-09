@@ -42,12 +42,20 @@ export class Profile extends React.Component {
                     <Segment attached>
                         <Header as="h2"
                                 content="My Characters"/>
+                        <Button as={Link} to={"/characters/new"} color="green"> Create New Character</Button>
+                        <List>
+                            <List.Item>TODO</List.Item>
+                        </List>
 
                     </Segment>
 
                     <Segment attached>
                         <Header as="h2"
                                 content="My Campaigns"/>
+                        <Button as={Link} to={"/campaigns/new"} color="green"> Create New Campaign</Button>
+                        <List>
+                            <List.Item>TODO</List.Item>
+                        </List>
                     </Segment>
                 </Grid.Column>
             </Grid>

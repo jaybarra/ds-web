@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Jay Barra <jay.f.barra@gmail.com>",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",

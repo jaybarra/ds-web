@@ -1,76 +1,92 @@
 import React, {Component} from "react";
 import {Link, Route, Switch, Redirect} from "react-router-dom";
-import {Container, Menu, Button, Dropdown} from "semantic-ui-react";
+import {Container, Header, Segment, Grid, Responsive, Menu, Button, Dropdown, Sidebar} from "semantic-ui-react";
 import {ToastContainer} from "react-toastify";
 import {connect} from "react-redux";
 
 import {Home, Characters, Campaigns, Login, Logout, Signup, Profile} from "./components";
 
-const FixedMenu = ({hideLogin, user}) => (
-    <Menu size="large">
-        <Container>
-            <Menu.Item as={Link} to="/" active>Home</Menu.Item>
-            <Menu.Item as={Link} to="/campaigns">Campaigns</Menu.Item>
-            <Menu.Item as={Link} to="/characters">Characters</Menu.Item>
-
-            {(hideLogin || user) ? null :
-                <Menu.Menu position="right">
-                    <Menu.Item className="item">
-                        <Button as={Link} to="/login">Log in</Button>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <Button as={Link} to="/signup" primary>Sign Up</Button>
-                    </Menu.Item>
-                </Menu.Menu>
-            }
-            <Menu.Menu position="right">
-                <Dropdown item text={user ? user.username : "Please Log in"}>
-                    <Dropdown.Menu>
-                        {user ? <Dropdown.Item as={Link}
-                                               to={"/user/" + user.username}>My Profile</Dropdown.Item> : null}
-                        <Dropdown.Item as={Link} to="/logout">Log out</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </Menu.Menu>
-
-        </Container>
-    </Menu>
-);
-
 @connect((store) => {
     return {
-        user: store.auth.user
+        auth: store.auth,
     };
 })
 export class App extends Component {
-    state = {};
+    state = {
+        mobileMenuVisible: false
+    };
 
-    hideFixedMenu = () => this.setState({visible: false});
-    showFixedMenu = () => this.setState({visible: true});
-
-    componentDidMount() {
-
+    componentWillUpdate(nextProps) {
+        if (nextProps.location.pathname !== this.props.location.pathname) {
+            this.setState({mobileMenuVisible: false});
+        }
     }
 
     render() {
-        const {location, user} = this.props;
-        const {visible} = this.state;
+        const {location, auth} = this.props;
+        const {mobileMenuVisible} = this.state;
 
-        let hideMenuStates = ["/", "/login", "/signup"];
+        const mobileMenu = (
+            <Grid as={Segment} inverted attached>
+                <Grid.Column><Header inverted as={Link} to="/">DS</Header></Grid.Column>
+                <Grid.Column width={4} floated="right" textAlign="right">
+                    <Button icon="bars"
+                            onClick={() => this.setState({mobileMenuVisible: !mobileMenuVisible})}/>
+                </Grid.Column>
+            </Grid>
+        );
 
-        const topMenuBar = ((visible && location.pathname === "/") || !hideMenuStates.includes(location.pathname)) ?
-            <FixedMenu hideLogin={location.pathname !== "/"} user={user}/> : null;
+        const fullMenu = (
+            <Segment inverted>
+                <Menu inverted stackable pointing secondary size="large">
+                    <Menu.Item active={location.pathname === "/"} as={Link} to="/">Home</Menu.Item>
+
+                    <Menu.Item active={location.pathname.indexOf("/campaigns") !== -1}
+                               as={Link}
+                               to="/campaigns">Campaigns</Menu.Item>
+
+                    <Menu.Item active={location.pathname.indexOf("/characters") !== -1}
+                               as={Link}
+                               to="/characters">Characters</Menu.Item>
+
+                    <Menu.Item position="right">
+                        {!auth.isAuthenticated ? <Button.Group>
+                                <Button as={Link} to="/login" inverted>Log in</Button>
+                                <Button.Or/>
+                                <Button as={Link}
+                                        to="/signup"
+                                        inverted>Sign Up</Button>
+                            </Button.Group> :
+                            <Dropdown item text={auth.user ? auth.user.username : "Not Logged In"}>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item as={Link}
+                                                   to={"/user/" + auth.user.username}>My Profile</Dropdown.Item>
+                                    <Dropdown.Divider/>
+                                    <Dropdown.Item as={Link} to={"/logout"}>Logout</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>}
+                    </Menu.Item>
+                </Menu>
+            </Segment>
+        );
 
         return (
-            <div className="app-wrapper">
-                {topMenuBar}
+            <div>
+
+                <Responsive maxWidth={700}>{mobileMenu}</Responsive>
+                <Responsive maxWidth={700}
+                            as={Sidebar}
+                            visible={mobileMenuVisible}
+                            animation="overlay">
+                    {fullMenu}
+                </Responsive>
+
+                <Responsive minWidth={700}>{fullMenu}</Responsive>
 
                 <ToastContainer/>
 
                 <Switch>
-                    <Route exact
-                           path="/"
-                           render={() => <Home hideMenu={this.hideFixedMenu} showMenu={this.showFixedMenu}/>}/>
+                    <Route exact path="/" component={Home}/>
 
                     <Route path="/campaigns" component={Campaigns}/>
                     <Route path="/characters" component={Characters}/>
@@ -81,10 +97,9 @@ export class App extends Component {
 
                     <Route path="/user/:username" component={Profile}/>
 
-                    {/** Catch 404s and redirect to home for now */}
+                    {/* Catch 404s and redirect to home for now */}
                     <Redirect to="/"/>
                 </Switch>
-
             </div>
         );
     }

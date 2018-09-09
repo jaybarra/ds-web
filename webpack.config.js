@@ -1,6 +1,5 @@
 const debug = process.env.NODE_ENV !== "production";
 const webpack = require("webpack");
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const path = require("path");
 
 const outputDir = debug ? "public" : "dist";
@@ -54,15 +53,13 @@ module.exports = {
             /** Handle images */
             {
                 test: /\.(png|jpg)$/,
-                loader: 'url-loader?limit=50000'
+                loader: "url-loader?limit=50000"
             }
         ]
     },
-    plugins: debug ? [
-        new DashboardPlugin()
-    ] : [
+    plugins: debug ? [] : [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
+            "process.env.NODE_ENV": JSON.stringify("production")
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({mangle: false, sourceMap: true, comments: false})
